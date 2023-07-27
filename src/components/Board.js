@@ -1,5 +1,8 @@
 import React from "react";
 import Square from "./Square";
+import addSound from "../assets/audio/add.mp3";
+import winSound from "../assets/audio/win.mp3";
+import gameOverSound from "../assets/audio/game-over.mp3";
 
 export default function Board({ xIsNext, squares, moves, onPlay, onReset }) {
 
@@ -9,14 +12,17 @@ export default function Board({ xIsNext, squares, moves, onPlay, onReset }) {
     }
     const nextSquares = [...squares];
     nextSquares[i] = xIsNext ? "X" : "O";
+    new Audio(addSound).play();
     onPlay(nextSquares);
   }
 
   const winner = calculateWinner(squares);
   let status;
   if (winner) {
+    new Audio(winSound).play();
     status = <p className="font-bold">Congrats! The winner is {winner}!</p>
   } else if (moves === 9) {
+    new Audio(gameOverSound).play();
     status = <p className="text-red-500">Game over. Try again!</p>
   } else {
     status = <p>Next player: {xIsNext ? "X" : "O"} </p>
