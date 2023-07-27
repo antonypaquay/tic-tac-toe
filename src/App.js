@@ -7,8 +7,6 @@ export default function Game() {
   const xIsNext = currentMove % 2 === 0;
   const currentSquares = history[currentMove];
 
-  const historyRef = useRef(null);
-
   function handlePlay(nextSquares) {
     const nextHistory = [...history.slice(0, currentMove + 1), nextSquares];
     setHistory(nextHistory);
@@ -28,21 +26,22 @@ export default function Game() {
   const moves = history.map((squares, move) => {
     let description;
     if (move > 0) {
-      description = 'Go to move #' + move;
+      description = 'Move #' + move;
     } else {
       description = 'Restart game';
     }
     return (
-      <li key={move}>
+      <li key={move} className="shrink-0 mr-4">
         <button
           className="
-          bg-gray-800
-          mb-2 py-2
-          px-4
-          rounded-md
-          text-xs
-          text-white
-          hover:bg-gray-700
+            w-full
+            bg-gray-800
+            py-2
+            px-4
+            rounded-md
+            text-xs
+            text-white
+            hover:bg-gray-700
           " onClick={() => jumpTo(move)}
         >{description}</button>
       </li>
@@ -52,8 +51,8 @@ export default function Game() {
   return (
     <div className="flex items-center justify-center w-screen h-screen bg-gray-900">
       <Board xIsNext={xIsNext} squares={currentSquares} moves={currentMove} onPlay={handlePlay} onReset={handleReset} />
-      <div className="absolute bottom-8 right-8 h-28 overflow-y-scroll" ref={historyRef}>
-        <ol className="flex flex-col-reverse items-end transition">{moves}</ol>
+      <div className="fixed left-1/2 bottom-8 -translate-x-1/2 w-10/12 max-w-lg right-8 overflow-y-hidden">
+        <ol className="flex w-full">{moves}</ol>
       </div>
     </div>
   );
